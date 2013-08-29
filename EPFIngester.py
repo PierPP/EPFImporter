@@ -226,19 +226,20 @@ class Ingester(object):
             ts = str(self.endTime - self.startTime)
             LOGGER.info("Incremental ingest of %s took %s", self.tableName, ts[:len(ts)-4])
         self.updateStatusDict()
-                
-        
+
     def connect(self):
         """
         Establish a connection to the database, returning the connection object.
         """
         conn = MySQLdb.connect(
-        charset='utf8', 
+        charset='utf8',
         host=self.dbHost, 
         user=self.dbUser, 
         passwd=self.dbPassword, 
         db=self.dbName)
         conn.autocommit(True)
+        conn.query('SET NAMES utf8mb4')
+        conn.store_result()
         return conn
             
     
